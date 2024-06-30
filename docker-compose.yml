@@ -1,0 +1,32 @@
+version: '3.1'
+services:
+  mongodb:
+    image: mongo:7.0.7
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/data:/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=rootuser
+      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+    container_name: wishlist-db
+
+  wishlist:
+    depends_on:
+      - mongodb
+    build:
+      context: .
+    restart: on-failure
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=dev
+      - MONGO_URI=mongodb://rootuser:rootpass@mongodb/wishlist?authSource=admin
+    ports:
+      - 8080:8080
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:
