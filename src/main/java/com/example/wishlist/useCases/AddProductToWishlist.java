@@ -18,11 +18,9 @@ public class AddProductToWishlist {
 
     public Wishlist saveProduct(String customerId, ProductDTO product) {
         Wishlist wishlist = wishlistGateway.findByCustomerId(customerId).orElse(new Wishlist(customerId));
-        if (wishlist.productExists(product.getProductId()))
-            return wishlist;
         if (MaxProductsValidator.exceedsProducts(wishlist.getProducts(), 20))
             throw new WishlistExceedsLimit();
-        wishlist.getProducts().add(new Product(product));
+        wishlist.addOrUpdateWishlist(product);
         return wishlistGateway.save(wishlist);
     }
 }

@@ -4,7 +4,7 @@ import com.example.wishlist.domain.Product;
 import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
 import com.example.wishlist.exceptions.WishlistNotFound;
-import com.example.wishlist.unit.mocks.ProductDTOMock;
+import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.RemoveProductFromWishlist;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ public class RemoveProductFromWishlistTest {
     @Test
     void testDeleteWhenProductExists() {
         Wishlist wishlist = new Wishlist("0");
-        List<Product> products = ProductDTOMock.createProductList(2).stream().map(Product::new).collect(Collectors.toList());
+        List<Product> products = ProductDTOMock.createList(2);
         wishlist.setProducts(products);
 
         when(wishlistGateway.findByCustomerId("0")).thenReturn(Optional.of(wishlist));

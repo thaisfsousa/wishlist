@@ -3,7 +3,7 @@ package com.example.wishlist.unit;
 import com.example.wishlist.domain.Product;
 import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
-import com.example.wishlist.unit.mocks.ProductDTOMock;
+import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.GetProductsInWishlist;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +29,7 @@ public class GetProductsInWishlistTest {
     @Test
     void findAllWhenWishlistNotFound() {
         String customerId = "3";
+
         when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.empty());
         List<Product> products = getProductsInWishlist.findAll(customerId);
 
@@ -39,7 +40,7 @@ public class GetProductsInWishlistTest {
     @Test
     void findAllWhenWishlistFound() {
         Wishlist wishlist = new Wishlist("0");
-        List<Product> products = ProductDTOMock.createProductList(2).stream().map(Product::new).toList();
+        List<Product> products = ProductDTOMock.createList(2);
         wishlist.setProducts(products);
 
         when(wishlistGateway.findByCustomerId("0")).thenReturn(Optional.of(wishlist));

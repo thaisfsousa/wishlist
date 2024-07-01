@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class WishlistDocument {
     @Id
     private String customerId;
-    private List<ProductDocument> products = Collections.emptyList();
+    private List<ProductDocument> products = new ArrayList<>();
 
     public WishlistDocument(Wishlist wishlist){
         this.setCustomerId(wishlist.getCustomerId());

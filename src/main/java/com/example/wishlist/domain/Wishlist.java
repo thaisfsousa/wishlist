@@ -7,11 +7,11 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Data
 public class Wishlist {
 
-    private String id;
     private String customerId;
     private List<Product> products;
 
@@ -35,5 +35,16 @@ public class Wishlist {
     public Wishlist(String customerId){
         this.setCustomerId(customerId);
         this.setProducts(new ArrayList<>());
+    }
+
+    public void addOrUpdateWishlist(final ProductDTO product){
+        int productIndex = IntStream.range(0, products.size())
+                .filter(i -> products.get(i).getProductId().equals(product.getProductId()))
+                .findFirst().orElse(-1);
+        if (productIndex != -1){
+            this.getProducts().set(productIndex, new Product(product));
+        }
+        else
+            this.getProducts().add(new Product(product));
     }
 }

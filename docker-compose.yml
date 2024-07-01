@@ -10,6 +10,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=rootuser
       - MONGO_INITDB_ROOT_PASSWORD=rootpass
     container_name: wishlist-db
+    networks:
+      - wishlist-network
 
   wishlist:
     depends_on:
@@ -18,15 +20,16 @@ services:
       context: .
     restart: on-failure
     environment:
-      - SERVER_PORT=8080
-      - SPRING_PROFILES_ACTIVE=dev
-      - MONGO_URI=mongodb://rootuser:rootpass@mongodb/wishlist?authSource=admin
+      - -SERVER_PORT=8080
+      - SPRING_DATA_MONGODB_URI=mongodb://rootuser:rootpass@mongodb/wishlist-db?authSource=admin
     ports:
       - 8080:8080
-    volumes:
-      - .m2:/root/.m2
-    stdin_open: true
-    tty: true
+    networks:
+      - wishlist-network
 
 volumes:
   db:
+
+networks:
+  wishlist-network:
+    driver: bridge

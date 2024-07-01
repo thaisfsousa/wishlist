@@ -4,7 +4,7 @@ import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
 import com.example.wishlist.gateways.http.DTO.ProductDTO;
 import com.example.wishlist.exceptions.WishlistNotFound;
-import com.example.wishlist.unit.mocks.ProductDTOMock;
+import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.FindProductInWishlist;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

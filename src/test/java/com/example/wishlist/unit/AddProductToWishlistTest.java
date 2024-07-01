@@ -3,16 +3,14 @@ package com.example.wishlist.unit;
 import com.example.wishlist.domain.Product;
 import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
-import com.example.wishlist.gateways.http.DTO.ProductDTO;
 import com.example.wishlist.exceptions.WishlistExceedsLimit;
-import com.example.wishlist.unit.mocks.ProductDTOMock;
+import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.AddProductToWishlist;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +60,7 @@ public class AddProductToWishlistTest {
     void testWishlistExceedsLimit() {
 
         Wishlist exceedingWishlist = new Wishlist("3");
-        List<Product> products = ProductDTOMock.createProductList(20).stream().map(Product::new).toList();
+        List<Product> products = ProductDTOMock.createList(20);
         exceedingWishlist.setProducts(products);
 
         when(wishlistGateway.findByCustomerId("3")).thenReturn(Optional.of(exceedingWishlist));
