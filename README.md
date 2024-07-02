@@ -51,11 +51,19 @@ Example of a success response:
 Checks if a specific product is in the customer's Wishlist.
 Example of a success response:
 ```
-    true
+    true | false
 ```
 
 #### POST ```customers/{customerId}/products```
 Adds a product into the Wishlist of a specified customer and returns updated Wishlist.
+Example of Body:
+```
+{
+    id: "1",
+    name: "Product 1",
+    price: 100
+}
+```
 Example of a success response:
 ```
 {
