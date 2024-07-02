@@ -46,7 +46,7 @@ public class RemoveProductFromWishlistTest {
         verify(wishlistGateway, times(1)).save(wishlist);
 
         assertEquals(1, wishlist.getProducts().size());
-        assertFalse(wishlist.getProducts().stream().anyMatch(p -> p.getProductId().equals("1")));
+        assertFalse(wishlist.getProducts().stream().anyMatch(p -> p.getId().equals("1")));
     }
 
     @Test

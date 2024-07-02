@@ -3,7 +3,6 @@ package com.example.wishlist.bdd;
 import com.example.wishlist.domain.Product;
 import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
-import com.example.wishlist.gateways.http.DTO.ProductDTO;
 import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.GetProductsInWishlist;
 import org.jbehave.core.annotations.Given;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Assertions;
 
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,15 +28,23 @@ public class GetProductsInWishlistSteps {
         wishlist = new Wishlist(customerId);
         List<Product> products = ProductDTOMock.createList(size);
         wishlist.setProducts(products);
+
         Mockito.when(wishlistGateway.findByCustomerId(customerId))
                 .thenReturn(Optional.of(wishlist));
     }
 
     @Given("the wishlist contains products")
     public void theWishlistContainsProducts() {
-        wishlist.getProducts().add(new Product(ProductDTOMock.create("product")));
+        wishlist.getProducts().add(new Product(ProductDTOMock.create("newProduct")));
+
         Mockito.when(wishlistGateway.findByCustomerId(Mockito.anyString()))
                 .thenReturn(Optional.of(wishlist));
+    }
+
+    @Given("wishlist doesnt exist for customer ID '${customerId}'")
+    public void noWishlistForCustomerID(String customerId) {
+        Mockito.when(wishlistGateway.findByCustomerId(customerId))
+                .thenReturn(Optional.empty());
     }
 
     @When("the customer with ID '${customerId}' retrieves all products in the wishlist")
@@ -49,6 +55,11 @@ public class GetProductsInWishlistSteps {
     @Then("the list of products should be returned")
     public void theListOfProductsShouldBeReturned() {
         Assertions.assertFalse(result.isEmpty());
+    }
+
+    @Then("an empty list should be returned")
+    public void anEmptyListShouldBeReturned() {
+        Assertions.assertTrue(result.isEmpty());
     }
 
 }

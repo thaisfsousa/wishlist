@@ -18,7 +18,7 @@ public class RemoveProductFromWishlist {
         Wishlist wishlist = wishlistGateway.findByCustomerId(customerId).orElseThrow(WishlistNotFound::new);
         if (!wishlist.productExists(productId))
             throw new ProductNotFound();
-        wishlist.getProducts().removeIf(product -> product.getProductId().equals(productId));
+        wishlist.getProducts().removeIf(product -> product.getId().equals(productId));
         wishlistGateway.save(wishlist);
     }
 }

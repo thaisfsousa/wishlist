@@ -1,7 +1,7 @@
 Scenario: Successfully remove a product from the wishlist
 Given a customer with ID '0' has a wishlist containing product '0'
-When customer '1' tries to remove the product with ID '0' from the wishlist
-Then the product should be removed from the wishlist
+When customer '0' tries to remove the product with ID '0' from the wishlist
+Then the product '0' should be removed from the wishlist
 
 Scenario: Product does not exist in the wishlist
 Given a customer with ID '1' has a wishlist not containing product '1'

@@ -5,14 +5,14 @@ import lombok.Data;
 
 @Data
 public class ProductDocument {
-    private String productId;
-    private String productName;
-    private Double productPrice;
+    private String id;
+    private String name;
+    private Double price;
 
     public ProductDocument(Product product){
-        this.setProductId(product.getProductId());
-        this.setProductName(product.getProductName());
-        this.setProductPrice(product.getProductPrice());
+        this.setId(product.getId());
+        this.setName(product.getName());
+        this.setPrice(product.getPrice());
     }
 
     public ProductDocument(){}

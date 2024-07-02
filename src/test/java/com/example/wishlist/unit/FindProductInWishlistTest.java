@@ -2,7 +2,7 @@ package com.example.wishlist.unit;
 
 import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
-import com.example.wishlist.gateways.http.DTO.ProductDTO;
+import com.example.wishlist.gateways.http.DTO.ProductResponseDTO;
 import com.example.wishlist.exceptions.WishlistNotFound;
 import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.FindProductInWishlist;
@@ -37,7 +37,7 @@ public class FindProductInWishlistTest {
 
     @Test
     void findProductByIdWhenProductExistsInWishlist() {
-        ProductDTO product = ProductDTOMock.create();
+        ProductResponseDTO product = ProductDTOMock.create();
         Wishlist wishlist = new Wishlist("0", product);
 
         when(wishlistGateway.findByCustomerId("0")).thenReturn(Optional.of(wishlist));

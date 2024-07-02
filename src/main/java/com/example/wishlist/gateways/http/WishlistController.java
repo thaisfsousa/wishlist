@@ -2,7 +2,8 @@ package com.example.wishlist.gateways.http;
 
 import com.example.wishlist.domain.Product;
 import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.gateways.http.DTO.ProductDTO;
+import com.example.wishlist.gateways.http.DTO.ProductResponseDTO;
+import com.example.wishlist.gateways.http.DTO.WishlistResponseDTO;
 import com.example.wishlist.useCases.AddProductToWishlist;
 import com.example.wishlist.useCases.FindProductInWishlist;
 import com.example.wishlist.useCases.GetProductsInWishlist;
@@ -10,7 +11,6 @@ import com.example.wishlist.useCases.RemoveProductFromWishlist;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,11 +38,11 @@ public class WishlistController {
 
     @GetMapping(path = "customers/{customerId}/products")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductDTO> getProducts(@PathVariable String customerId){
+    public List<ProductResponseDTO> getProducts(@PathVariable String customerId){
         List<Product> response = getProductsInWishlist.findAll(customerId);
-        List<ProductDTO> products = new ArrayList<>();
+        List<ProductResponseDTO> products = new ArrayList<>();
         for (Product product : response){
-            products.add(new ProductDTO(product));
+            products.add(new ProductResponseDTO(product));
         }
         return products;
     }
@@ -55,9 +55,10 @@ public class WishlistController {
 
     @PostMapping(path = "customers/{customerId}/products/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public Wishlist saveProduct(@PathVariable(name = "customerId") String customerId,
-                                                          @Valid @RequestBody final ProductDTO product) {
-        return addProductToWishlist.saveProduct(customerId, product);
+    public WishlistResponseDTO saveProduct(@PathVariable(name = "customerId") String customerId,
+                                           @Valid @RequestBody final ProductResponseDTO product) {
+        Wishlist response = addProductToWishlist.saveProduct(customerId, product);
+        return new WishlistResponseDTO(response);
     }
 
     @DeleteMapping(path = "customers/{customerId}/products/{productId}")

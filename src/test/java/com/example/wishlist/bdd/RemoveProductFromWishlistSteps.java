@@ -16,8 +16,6 @@ import org.mockito.Mockito;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-
 public class RemoveProductFromWishlistSteps {
     private final WishlistGateway wishlistGateway = Mockito.mock(WishlistGateway.class);
     private Wishlist wishlist;
@@ -27,12 +25,14 @@ public class RemoveProductFromWishlistSteps {
     public void aCustomerHasAWishlistWithProduct(String customerId, String productId) {
         wishlist = new Wishlist(customerId);
         wishlist.getProducts().add(new Product(ProductDTOMock.create(productId)));
+
         Mockito.when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
     }
 
     @Given("a customer with ID '$customerId' has a wishlist not containing product '$productId'")
     public void aCustomerHasAWishlistWithoutProduct(String customerId, String productId) {
         wishlist = new Wishlist(customerId);
+
         Mockito.when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
     }
 
@@ -50,7 +50,7 @@ public class RemoveProductFromWishlistSteps {
         }
     }
 
-    @Then("the product should be removed from the wishlist")
+    @Then("the product '$productId' should be removed from the wishlist")
     public void theProductShouldBeRemovedFromTheWishlist() {
         Assertions.assertTrue(wishlist.getProducts().isEmpty());
         Mockito.verify(wishlistGateway).save(wishlist);

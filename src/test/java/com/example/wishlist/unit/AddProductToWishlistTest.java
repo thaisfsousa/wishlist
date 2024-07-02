@@ -38,7 +38,7 @@ public class AddProductToWishlistTest {
         assertNotNull(savedWishlist);
         assertEquals("0", savedWishlist.getCustomerId());
         assertEquals(1, savedWishlist.getProducts().size());
-        assertEquals("1", savedWishlist.getProducts().get(0).getProductId());
+        assertEquals("1", savedWishlist.getProducts().get(0).getId());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class AddProductToWishlistTest {
         verify(wishlistGateway, never()).save(any(Wishlist.class));
         assertEquals("1", savedWishlist.getCustomerId());
         assertEquals(1, savedWishlist.getProducts().size());
-        assertEquals("2", savedWishlist.getProducts().get(0).getProductId());
+        assertEquals("2", savedWishlist.getProducts().get(0).getId());
     }
 
     @Test

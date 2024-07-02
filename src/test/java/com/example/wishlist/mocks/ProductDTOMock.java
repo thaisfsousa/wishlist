@@ -1,7 +1,7 @@
 package com.example.wishlist.mocks;
 
 import com.example.wishlist.domain.Product;
-import com.example.wishlist.gateways.http.DTO.ProductDTO;
+import com.example.wishlist.gateways.http.DTO.ProductResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,15 +9,15 @@ import java.util.stream.IntStream;
 
 public class ProductDTOMock {
 
-    public static ProductDTO create(String productId){
-        return new ProductDTO(productId, "Product " + productId, 10.0);
+    public static ProductResponseDTO create(String productId){
+        return new ProductResponseDTO(productId, "Product " + productId, 10.0);
     }
 
-    public static ProductDTO create(){
+    public static ProductResponseDTO create(){
         return create("1");
     }
 
-    public static List<ProductDTO> createProductList(Integer size){
+    public static List<ProductResponseDTO> createProductList(Integer size){
         return IntStream.range(0,size).mapToObj(String::valueOf).map(ProductDTOMock::create).collect(Collectors.toList());
     }
 

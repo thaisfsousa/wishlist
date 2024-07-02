@@ -41,6 +41,15 @@ public class AddProductToWishlistSteps {
         Mockito.when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
     }
 
+    @Given("a wishlist for customer '$customerId' already has $size products")
+    public void exceedsProductsLimit(String customerId, int size) {
+        wishlist = new Wishlist(customerId);
+        List<Product> products = ProductDTOMock.createList(size);
+        wishlist.setProducts(products);
+
+        Mockito.when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
+    }
+
     @When("I try to add a new product with ID '$productId' to the wishlist")
     public void whenIAddANewProductToTheWishlist(String productId) {
         Wishlist newWishlist = new Wishlist(wishlist.getCustomerId());
@@ -50,7 +59,7 @@ public class AddProductToWishlistSteps {
             Mockito.when(wishlistGateway.save(wishlist)).thenReturn(newWishlist);
         }
         try {
-            new AddProductToWishlist(wishlistGateway).saveProduct(productId, ProductDTOMock.create(productId));
+            new AddProductToWishlist(wishlistGateway).saveProduct(wishlist.getCustomerId(), ProductDTOMock.create(productId));
         } catch (Exception e) {
             exception = e;
         }
@@ -70,5 +79,4 @@ public class AddProductToWishlistSteps {
     public void thenIShouldBeInformedThatTheWishlistExceedsTheLimit() {
         assertTrue(exception instanceof WishlistExceedsLimit);
     }
-
 }

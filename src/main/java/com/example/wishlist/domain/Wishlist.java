@@ -1,7 +1,7 @@
 package com.example.wishlist.domain;
 
 import com.example.wishlist.gateways.database.documents.WishlistDocument;
-import com.example.wishlist.gateways.http.DTO.ProductDTO;
+import com.example.wishlist.gateways.http.DTO.ProductResponseDTO;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Wishlist {
 
     public Wishlist(){}
 
-    public Wishlist(String customerId, ProductDTO product){
+    public Wishlist(String customerId, ProductResponseDTO product){
         this.setCustomerId(customerId);
         this.setProducts(new ArrayList<>());
         this.getProducts().add(new Product(product));
@@ -29,7 +29,7 @@ public class Wishlist {
     }
 
     public Boolean productExists(String productId){
-        return this.getProducts().stream().anyMatch(prod -> prod.getProductId().equals(productId));
+        return this.getProducts().stream().anyMatch(prod -> prod.getId().equals(productId));
     }
 
     public Wishlist(String customerId){
@@ -37,9 +37,9 @@ public class Wishlist {
         this.setProducts(new ArrayList<>());
     }
 
-    public void addOrUpdateWishlist(final ProductDTO product){
+    public void addOrUpdateWishlist(final ProductResponseDTO product){
         int productIndex = IntStream.range(0, products.size())
-                .filter(i -> products.get(i).getProductId().equals(product.getProductId()))
+                .filter(i -> products.get(i).getId().equals(product.getId()))
                 .findFirst().orElse(-1);
         if (productIndex != -1){
             this.getProducts().set(productIndex, new Product(product));
