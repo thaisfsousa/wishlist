@@ -2,7 +2,7 @@ package com.example.wishlist.useCases;
 
 import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
-import com.example.wishlist.gateways.http.DTO.ProductResponseDTO;
+import com.example.wishlist.gateways.rest.DTO.ProductResponseDTO;
 import com.example.wishlist.exceptions.WishlistExceedsLimit;
 import com.example.wishlist.useCases.validator.MaxProductsValidator;
 

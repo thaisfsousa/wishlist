@@ -1,7 +1,7 @@
 package com.example.wishlist.domain;
 
 import com.example.wishlist.gateways.database.documents.ProductDocument;
-import com.example.wishlist.gateways.http.DTO.ProductResponseDTO;
+import com.example.wishlist.gateways.rest.DTO.ProductResponseDTO;
 import lombok.*;
 
 @Data

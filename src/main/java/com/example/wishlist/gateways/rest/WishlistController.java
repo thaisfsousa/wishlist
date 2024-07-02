@@ -1,9 +1,9 @@
-package com.example.wishlist.gateways.http;
+package com.example.wishlist.gateways.rest;
 
 import com.example.wishlist.domain.Product;
 import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.gateways.http.DTO.ProductResponseDTO;
-import com.example.wishlist.gateways.http.DTO.WishlistResponseDTO;
+import com.example.wishlist.gateways.rest.DTO.ProductResponseDTO;
+import com.example.wishlist.gateways.rest.DTO.WishlistResponseDTO;
 import com.example.wishlist.useCases.AddProductToWishlist;
 import com.example.wishlist.useCases.FindProductInWishlist;
 import com.example.wishlist.useCases.GetProductsInWishlist;

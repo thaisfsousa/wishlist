@@ -1,4 +1,4 @@
-package com.example.wishlist.gateways.http.DTO;
+package com.example.wishlist.gateways.rest.DTO;
 
 import com.example.wishlist.domain.Wishlist;
 import lombok.Data;
