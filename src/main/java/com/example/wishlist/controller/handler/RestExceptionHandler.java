@@ -1,7 +1,7 @@
-package com.example.wishlist.gateways.rest.handler;
+package com.example.wishlist.controller.handler;
 
-import com.example.wishlist.exceptions.WishlistException;
-import com.example.wishlist.gateways.rest.DTO.ExceptionResponseDTO;
+import com.example.wishlist.core.DTO.ExceptionResponseDTO;
+import com.example.wishlist.core.exceptions.WishlistException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

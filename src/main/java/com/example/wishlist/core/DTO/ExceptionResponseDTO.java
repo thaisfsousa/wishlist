@@ -1,4 +1,4 @@
-package com.example.wishlist.gateways.rest.DTO;
+package com.example.wishlist.core.DTO;
 
 public record ExceptionResponseDTO(String message) {
 }

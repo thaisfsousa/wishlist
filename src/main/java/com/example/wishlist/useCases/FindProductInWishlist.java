@@ -1,8 +1,8 @@
 package com.example.wishlist.useCases;
 
-import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.gateways.database.WishlistGateway;
-import com.example.wishlist.exceptions.WishlistNotFound;
+import com.example.wishlist.core.domain.Wishlist;
+import com.example.wishlist.core.exceptions.WishlistNotFound;
+import com.example.wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FindProductInWishlist{
 
-    private final WishlistGateway wishlistGateway;
+    private final WishlistRepository wishlistRepository;
 
     public Boolean findProductById(String customerId, String productId) {
-        Wishlist wishlist = wishlistGateway.findByCustomerId(customerId).orElseThrow(WishlistNotFound::new);
+        Wishlist wishlist = wishlistRepository.findByCustomerId(customerId).orElseThrow(WishlistNotFound::new);
         return wishlist.productExists(productId);
     }
 }

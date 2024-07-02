@@ -1,17 +1,19 @@
-package com.example.wishlist.domain;
+package com.example.wishlist.core.domain;
 
-import com.example.wishlist.gateways.database.documents.WishlistDocument;
-import com.example.wishlist.gateways.rest.DTO.ProductResponseDTO;
+import com.example.wishlist.core.DTO.ProductResponseDTO;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Data
+@Document
 public class Wishlist {
 
+    @Id
     private String customerId;
     private List<Product> products;
 
@@ -21,11 +23,6 @@ public class Wishlist {
         this.setCustomerId(customerId);
         this.setProducts(new ArrayList<>());
         this.getProducts().add(new Product(product));
-    }
-
-    public Wishlist(WishlistDocument wishlist){
-        this.setCustomerId(wishlist.getCustomerId());
-        this.setProducts(wishlist.getProducts().stream().map(Product::new).collect(Collectors.toList()));
     }
 
     public Boolean productExists(String productId){

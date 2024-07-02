@@ -1,6 +1,6 @@
-package com.example.wishlist.gateways.rest.DTO;
+package com.example.wishlist.core.DTO;
 
-import com.example.wishlist.domain.Wishlist;
+import com.example.wishlist.core.domain.Wishlist;
 import lombok.Data;
 
 import java.util.List;

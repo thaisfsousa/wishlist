@@ -1,7 +1,7 @@
-package com.example.wishlist.gateways.rest.DTO;
+package com.example.wishlist.core.DTO;
 
 
-import com.example.wishlist.domain.Product;
+import com.example.wishlist.core.domain.Product;
 import jakarta.validation.constraints.NotBlank;
 
 import lombok.Data;

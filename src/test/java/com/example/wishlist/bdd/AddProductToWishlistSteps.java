@@ -1,12 +1,11 @@
 package com.example.wishlist.bdd;
 
-import com.example.wishlist.domain.Product;
-import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.exceptions.WishlistExceedsLimit;
-import com.example.wishlist.gateways.database.WishlistGateway;
+import com.example.wishlist.core.domain.Product;
+import com.example.wishlist.core.domain.Wishlist;
+import com.example.wishlist.core.exceptions.WishlistExceedsLimit;
+import com.example.wishlist.repository.WishlistRepository;
 import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.AddProductToWishlist;
-import com.example.wishlist.useCases.validator.MaxProductsValidator;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -19,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AddProductToWishlistSteps {
-    private final WishlistGateway wishlistGateway = Mockito.mock(WishlistGateway.class);
+    private final WishlistRepository wishlistRepository = Mockito.mock(WishlistRepository.class);
     private Wishlist wishlist;
     private Exception exception;
 
@@ -29,7 +28,7 @@ public class AddProductToWishlistSteps {
         List<Product> products = ProductDTOMock.createList(size);
         wishlist.setProducts(products);
 
-        Mockito.when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
+        Mockito.when(wishlistRepository.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
     }
 
     @Given("a wishlist for customer '$customerId' with products including '$productId' and size $size")
@@ -38,7 +37,7 @@ public class AddProductToWishlistSteps {
         List<Product> products = ProductDTOMock.createList(size);
         wishlist.setProducts(products);
 
-        Mockito.when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
+        Mockito.when(wishlistRepository.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
     }
 
     @Given("a wishlist for customer '$customerId' already has $size products")
@@ -47,19 +46,19 @@ public class AddProductToWishlistSteps {
         List<Product> products = ProductDTOMock.createList(size);
         wishlist.setProducts(products);
 
-        Mockito.when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
+        Mockito.when(wishlistRepository.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
     }
 
     @When("I try to add a new product with ID '$productId' to the wishlist")
     public void whenIAddANewProductToTheWishlist(String productId) {
         Wishlist newWishlist = new Wishlist(wishlist.getCustomerId());
         newWishlist.setProducts(wishlist.getProducts());
-        if (!wishlist.productExists(productId) && !MaxProductsValidator.exceedsProducts(wishlist.getProducts(), 20)){
+        if (!wishlist.productExists(productId) && wishlist.getProducts().size() < 20){
             newWishlist.getProducts().add(new Product(ProductDTOMock.create(productId)));
-            Mockito.when(wishlistGateway.save(wishlist)).thenReturn(newWishlist);
+            Mockito.when(wishlistRepository.save(wishlist)).thenReturn(newWishlist);
         }
         try {
-            new AddProductToWishlist(wishlistGateway).saveProduct(wishlist.getCustomerId(), ProductDTOMock.create(productId));
+            new AddProductToWishlist(wishlistRepository).saveProduct(wishlist.getCustomerId(), ProductDTOMock.create(productId));
         } catch (Exception e) {
             exception = e;
         }

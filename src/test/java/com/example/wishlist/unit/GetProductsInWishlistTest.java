@@ -1,8 +1,8 @@
 package com.example.wishlist.unit;
 
-import com.example.wishlist.domain.Product;
-import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.gateways.database.WishlistGateway;
+import com.example.wishlist.core.domain.Product;
+import com.example.wishlist.core.domain.Wishlist;
+import com.example.wishlist.repository.WishlistRepository;
 import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.GetProductsInWishlist;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class GetProductsInWishlistTest {
 
     @Mock
-    private WishlistGateway wishlistGateway;
+    private WishlistRepository wishlistRepository;
 
     @InjectMocks
     private GetProductsInWishlist getProductsInWishlist;
@@ -30,11 +30,11 @@ public class GetProductsInWishlistTest {
     void findAllWhenWishlistNotFound() {
         String customerId = "3";
 
-        when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.empty());
+        when(wishlistRepository.findByCustomerId(customerId)).thenReturn(Optional.empty());
         List<Product> products = getProductsInWishlist.findAll(customerId);
 
         assertTrue(products.isEmpty());
-        verify(wishlistGateway).findByCustomerId(customerId);
+        verify(wishlistRepository).findByCustomerId(customerId);
     }
 
     @Test
@@ -43,10 +43,10 @@ public class GetProductsInWishlistTest {
         List<Product> products = ProductDTOMock.createList(2);
         wishlist.setProducts(products);
 
-        when(wishlistGateway.findByCustomerId("0")).thenReturn(Optional.of(wishlist));
+        when(wishlistRepository.findByCustomerId("0")).thenReturn(Optional.of(wishlist));
         List<Product> returnedProducts = getProductsInWishlist.findAll("0");
 
         assertEquals(2, products.size());
-        verify(wishlistGateway).findByCustomerId("0");
+        verify(wishlistRepository).findByCustomerId("0");
     }
 }

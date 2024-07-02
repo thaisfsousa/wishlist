@@ -1,4 +1,4 @@
-package com.example.wishlist.exceptions;
+package com.example.wishlist.core.exceptions;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

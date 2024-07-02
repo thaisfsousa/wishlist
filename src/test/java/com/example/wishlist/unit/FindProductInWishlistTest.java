@@ -1,9 +1,8 @@
 package com.example.wishlist.unit;
 
-import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.gateways.database.WishlistGateway;
-import com.example.wishlist.gateways.rest.DTO.ProductResponseDTO;
-import com.example.wishlist.exceptions.WishlistNotFound;
+import com.example.wishlist.core.domain.Wishlist;
+import com.example.wishlist.core.DTO.ProductResponseDTO;
+import com.example.wishlist.core.exceptions.WishlistNotFound;
 import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.FindProductInWishlist;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.wishlist.repository.WishlistRepository;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class FindProductInWishlistTest {
 
     @Mock
-    private WishlistGateway wishlistGateway;
+    private WishlistRepository wishlistRepository;
 
     @InjectMocks
     private FindProductInWishlist findProductInWishlist;
@@ -30,7 +30,7 @@ public class FindProductInWishlistTest {
     void findProductByIdThrowsWishlistNotFound() {
         String customerId = "0";
 
-        when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.empty());
+        when(wishlistRepository.findByCustomerId(customerId)).thenReturn(Optional.empty());
 
         assertThrows(WishlistNotFound.class, () -> findProductInWishlist.findProductById(customerId, "1"));
     }
@@ -40,7 +40,7 @@ public class FindProductInWishlistTest {
         ProductResponseDTO product = ProductDTOMock.create();
         Wishlist wishlist = new Wishlist("0", product);
 
-        when(wishlistGateway.findByCustomerId("0")).thenReturn(Optional.of(wishlist));
+        when(wishlistRepository.findByCustomerId("0")).thenReturn(Optional.of(wishlist));
         Boolean found = findProductInWishlist.findProductById("0", "1");
 
         assertTrue(found);
@@ -51,7 +51,7 @@ public class FindProductInWishlistTest {
         String customerId = "0";
         Wishlist wishlist = new Wishlist(customerId);
 
-        when(wishlistGateway.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
+        when(wishlistRepository.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
         Boolean found = findProductInWishlist.findProductById(customerId, "1");
 
         assertFalse(found);

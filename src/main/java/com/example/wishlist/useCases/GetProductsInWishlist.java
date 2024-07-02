@@ -1,8 +1,8 @@
 package com.example.wishlist.useCases;
 
-import com.example.wishlist.domain.Product;
-import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.gateways.database.WishlistGateway;
+import com.example.wishlist.core.domain.Product;
+import com.example.wishlist.core.domain.Wishlist;
+import com.example.wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +14,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GetProductsInWishlist {
 
-    private final WishlistGateway wishlistGateway;
+    private final WishlistRepository wishlistRepository;
 
     public final List<Product> findAll(String customerId) {
-        Optional<Wishlist> wishlist = wishlistGateway.findByCustomerId(customerId);
+        Optional<Wishlist> wishlist = wishlistRepository.findByCustomerId(customerId);
         return wishlist.isEmpty() ? List.of() : wishlist.get().getProducts();
     }
 }

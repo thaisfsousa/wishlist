@@ -1,8 +1,8 @@
 package com.example.wishlist.bdd;
 
-import com.example.wishlist.domain.Product;
-import com.example.wishlist.domain.Wishlist;
-import com.example.wishlist.gateways.database.WishlistGateway;
+import com.example.wishlist.core.domain.Product;
+import com.example.wishlist.core.domain.Wishlist;
+import com.example.wishlist.repository.WishlistRepository;
 import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.GetProductsInWishlist;
 import org.jbehave.core.annotations.Given;
@@ -18,8 +18,8 @@ import java.util.Optional;
 
 public class GetProductsInWishlistSteps {
 
-    private final WishlistGateway wishlistGateway = Mockito.mock(WishlistGateway.class);
-    private final GetProductsInWishlist getProductsInWishlist = new GetProductsInWishlist(wishlistGateway);
+    private final WishlistRepository wishlistRepository = Mockito.mock(WishlistRepository.class);
+    private final GetProductsInWishlist getProductsInWishlist = new GetProductsInWishlist(wishlistRepository);
     private List<Product> result;
     private Wishlist wishlist;
 
@@ -29,7 +29,7 @@ public class GetProductsInWishlistSteps {
         List<Product> products = ProductDTOMock.createList(size);
         wishlist.setProducts(products);
 
-        Mockito.when(wishlistGateway.findByCustomerId(customerId))
+        Mockito.when(wishlistRepository.findByCustomerId(customerId))
                 .thenReturn(Optional.of(wishlist));
     }
 
@@ -37,13 +37,13 @@ public class GetProductsInWishlistSteps {
     public void theWishlistContainsProducts() {
         wishlist.getProducts().add(new Product(ProductDTOMock.create("newProduct")));
 
-        Mockito.when(wishlistGateway.findByCustomerId(Mockito.anyString()))
+        Mockito.when(wishlistRepository.findByCustomerId(Mockito.anyString()))
                 .thenReturn(Optional.of(wishlist));
     }
 
     @Given("wishlist doesnt exist for customer ID '${customerId}'")
     public void noWishlistForCustomerID(String customerId) {
-        Mockito.when(wishlistGateway.findByCustomerId(customerId))
+        Mockito.when(wishlistRepository.findByCustomerId(customerId))
                 .thenReturn(Optional.empty());
     }
 

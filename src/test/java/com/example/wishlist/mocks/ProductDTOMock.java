@@ -1,7 +1,7 @@
 package com.example.wishlist.mocks;
 
-import com.example.wishlist.domain.Product;
-import com.example.wishlist.gateways.rest.DTO.ProductResponseDTO;
+import com.example.wishlist.core.domain.Product;
+import com.example.wishlist.core.DTO.ProductResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
