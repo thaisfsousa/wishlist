@@ -8,9 +8,11 @@ import com.example.wishlist.useCases.AddProductToWishlist;
 import com.example.wishlist.useCases.FindProductInWishlist;
 import com.example.wishlist.useCases.GetProductsInWishlist;
 import com.example.wishlist.useCases.RemoveProductFromWishlist;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,8 +38,12 @@ public class WishlistController {
         this.removeProductFromWishlist = removeProductFromWishlist;
     }
 
+    @Operation(description = "" )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Returns all Products from a customer."),
+    })
     @GetMapping(path = "customers/{customerId}/products")
-    @ResponseStatus(HttpStatus.OK)
     public List<ProductResponseDTO> getProducts(@PathVariable String customerId){
         List<Product> response = getProductsInWishlist.findAll(customerId);
         List<ProductResponseDTO> products = new ArrayList<>();
@@ -47,22 +53,37 @@ public class WishlistController {
         return products;
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Returns if a specific product already exists in customer's wishlist."),
+    })
     @GetMapping(path = "customers/{customerId}/products/{productId}")
-    @ResponseStatus(HttpStatus.OK)
     public Boolean getProductById (@PathVariable String customerId, @PathVariable String productId){
         return findProductInWishlist.findProductById(customerId, productId);
     }
 
-    @PostMapping(path = "customers/{customerId}/products/save")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Returns a new wishlist for customer, adding a new product."),
+            @ApiResponse(responseCode = "400",
+                    description = "The wishlist is already full."),
+    })
+    @PostMapping(path = "customers/{customerId}/products")
     public WishlistResponseDTO saveProduct(@PathVariable(name = "customerId") String customerId,
                                            @Valid @RequestBody final ProductResponseDTO product) {
         Wishlist response = addProductToWishlist.saveProduct(customerId, product);
         return new WishlistResponseDTO(response);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "The product was successfully deleted."),
+            @ApiResponse(responseCode = "404",
+                    description = "The product was not found."),
+            @ApiResponse(responseCode = "404",
+                    description = "The wishlist was not found."),
+    })
     @DeleteMapping(path = "customers/{customerId}/products/{productId}")
-    @ResponseStatus(HttpStatus.OK)
     public String removeProduct(@PathVariable String customerId,
                                                           @PathVariable String productId){
         removeProductFromWishlist.deleteProduct(customerId, productId);
