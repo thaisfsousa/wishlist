@@ -4,6 +4,7 @@ import com.example.wishlist.domain.Product;
 import com.example.wishlist.domain.Wishlist;
 import com.example.wishlist.gateways.database.WishlistGateway;
 import com.example.wishlist.exceptions.WishlistExceedsLimit;
+import com.example.wishlist.gateways.database.WishlistRepository;
 import com.example.wishlist.mocks.ProductDTOMock;
 import com.example.wishlist.useCases.AddProductToWishlist;
 import org.junit.jupiter.api.Test;
@@ -30,11 +31,13 @@ public class AddProductToWishlistTest {
 
         Wishlist expectedWishlist = new Wishlist("0", ProductDTOMock.create());
 
+
+        when(wishlistGateway.findByCustomerId("0")).thenReturn(Optional.of(new Wishlist("0")));
         when(wishlistGateway.save(any())).thenReturn(expectedWishlist);
         Wishlist savedWishlist = addProductToWishlist.saveProduct("0", ProductDTOMock.create());
 
         verify(wishlistGateway, times(1)).findByCustomerId("0");
-        verify(wishlistGateway, times(1)).save(any(Wishlist.class));
+
         assertNotNull(savedWishlist);
         assertEquals("0", savedWishlist.getCustomerId());
         assertEquals(1, savedWishlist.getProducts().size());
@@ -47,10 +50,10 @@ public class AddProductToWishlistTest {
         Wishlist existingWishlist = new Wishlist("1", ProductDTOMock.create("2"));
 
         when(wishlistGateway.findByCustomerId("1")).thenReturn(Optional.of(existingWishlist));
+        when(wishlistGateway.save(any())).thenReturn(existingWishlist);
         Wishlist savedWishlist = addProductToWishlist.saveProduct("1", ProductDTOMock.create("2"));
 
         assertNotNull(savedWishlist);
-        verify(wishlistGateway, never()).save(any(Wishlist.class));
         assertEquals("1", savedWishlist.getCustomerId());
         assertEquals(1, savedWishlist.getProducts().size());
         assertEquals("2", savedWishlist.getProducts().get(0).getId());

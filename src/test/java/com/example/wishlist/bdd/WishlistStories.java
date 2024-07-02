@@ -19,7 +19,7 @@ public class WishlistStories extends JUnitStories {
                 .useStoryLoader(new LoadFromClasspath(this.getClass()))
                 .useStoryReporterBuilder(new StoryReporterBuilder()
                         .withDefaultFormats()
-                        .withFormats(StoryReporterBuilder.ProvidedFormat.CONSOLE, StoryReporterBuilder.ProvidedFormat.TXT));
+                        .withFormats(StoryReporterBuilder.ProvidedFormat.CONSOLE, StoryReporterBuilder.ProvidedFormat.CONSOLE));
     }
 
     @Override

@@ -1,6 +1,6 @@
 FROM openjdk:17-slim
 
-COPY --from=build /app/target/wishlist-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY /target/wishlist-0.0.1-SNAPSHOT.jar /app/app.jar
 
 WORKDIR /app
 
